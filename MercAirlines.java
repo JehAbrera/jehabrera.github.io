@@ -29,12 +29,17 @@ class TripInf {
    public String name[];
    public int age[];
    public String ins[];
+   public double fins[];
+   public double travel_tax[];
+   public double tprice[];
+   public double disc[];
    public ButtonGroup group;
    public String cap;
    public int nop;
    public double fprice;
    public double amount=0;
    public double change=0;
+   public String temp_Name;
 
    private String planetype;
    private String location;
@@ -281,18 +286,18 @@ class TripInf {
                      fare=3500;
                   }
                }
-               if(l== "Batanes-Manila"){
+               else if(l== "Batanes-Manila"){
                   if  (p == "Private Class"){
-                     fare=8000;
+                     fare=9800;
                   }
                  else  if (p == "Business Class"){
-                     fare=12500;
+                     fare=12950;
                   }
                   else if(p == "Regular Class"){
-                     fare=3500;
+                     fare=3900;
                   }
                 }
-                if(l== "Manila-Palawan"){
+                else if(l== "Manila-Palawan"){
                   if  (p == "Private Class"){
                      fare=8000;
                   }
@@ -303,7 +308,7 @@ class TripInf {
                      fare=3500;
                   }
                }
-               if(l == "Palawan-Manila"){
+               else if(l == "Palawan-Manila"){
                   if  (p == "Private Class"){
                      fare=8000;
                   }
@@ -314,7 +319,7 @@ class TripInf {
                      fare=3500;
                   }
                }
-               if(l == "Manila-South Korea"){
+               else if(l == "Manila-South Korea"){
                   if  (p == "Private Class"){
                      fare=8000;
                   }
@@ -325,7 +330,7 @@ class TripInf {
                      fare=3500;
                   }
                }
-               if(l == "South Korea-Manila"){
+               else if(l == "South Korea-Manila"){
                   if  (p == "Private Class"){
                      fare=8000;
                   }
@@ -336,7 +341,7 @@ class TripInf {
                      fare=3500;
                   }
                }
-               if(l == "Manila-Japan"){
+               else if(l == "Manila-Japan"){
                   if  (p == "Private Class"){
                      fare=8000;
                   }
@@ -347,7 +352,7 @@ class TripInf {
                      fare=3500;
                   }
                }
-               if(l == "Japan-Manila"){
+               else if(l == "Japan-Manila"){
                   if  (p == "Private Class"){
                      fare=8000;
                   }
@@ -359,7 +364,6 @@ class TripInf {
                   }
                }
                NoOfPass();
-               Test_Display();
             }});
       cancel2=new JButton("Cancel");
       cancel2.addActionListener(new ActionListener() {  
@@ -380,7 +384,7 @@ class TripInf {
          JPanel pane2=new JPanel();
          frame4.getContentPane().add(pane2);
          pane2.setLayout(null);
-         frame4.setBounds(475, 325, 380, 200);
+         frame4.setBounds(500, 325, 380, 200);
          pane2.setBounds(10,10, 350, 200);
          frame4.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
          
@@ -392,22 +396,189 @@ class TripInf {
          count.setBounds(215, 20, 115, 30); 
          JButton submit, cancel3;
          submit= new JButton("Submit");
+         submit.addActionListener(new ActionListener() {  
+            public void actionPerformed(ActionEvent e)
+            {
+                try{
+                  String nopp= count.getText();
+                  nop=Integer.parseInt(nopp);
+                  if(nop<=0){
+                     frame4.dispose();
+                     JOptionPane.showMessageDialog(null,"INVALID INPUT","ERROR!!",JOptionPane.ERROR_MESSAGE);
+                     NoOfPass();
+                  }
+                  else if(nop>Max){
+                     frame4.dispose();
+                     JOptionPane.showMessageDialog(null,"Sorry! You have exceeded the number of passengers required","ERROR!!",JOptionPane.ERROR_MESSAGE);
+                     NoOfPass();
+                  }
+                  else {
+                     frame4.dispose();
+                     PassInfo();
+                     Test_Display();
+                  }
+                }
+                catch(HeadlessException | NumberFormatException f) {
+                  JOptionPane.showMessageDialog(null,"INVALID INPUT","ERROR!",JOptionPane.ERROR_MESSAGE);
+                   NoOfPass();
+                }
+            }});
          cancel3=new JButton("Cancel");
+         cancel3.addActionListener(new ActionListener() {  
+            public void actionPerformed(ActionEvent e)
+            {
+                frame4.dispose();
+                Location();
+            }});
          pane2.add(submit);
          pane2.add(cancel3);
+         submit.setBounds(229, 70, 100, 40);
+         cancel3.setBounds(25, 70, 100, 40);
       }
-      catch (NumberFormatException  e) {
+      catch (Exception  e) {
          Start();
       }
    }
+   // PASSENGER INFO //
+   public void PassInfo(){
+     String name[]= new String[nop];
+     int age[]= new int[nop];
+     String ins[]= new String[nop];
+     double fins[]=new double[nop];
+     double travel_tax[]=new double[nop];
+     double tprice[]=new double[nop];
+     double discount[]=new double[nop];
+     
+     for (int x=0; x<nop; x++)
+     {
+            //----------------------PASSENGER'S NAME----------------------------
+       while (true){
+          try{
+            int checker=0;
+            temp_Name =  JOptionPane.showInputDialog(null, "Enter Passenger's Full Name" + " [" + (x+1) + "]");
+            for (int z=0; z<x; z++)
+            {
+               if (temp_Name.equalsIgnoreCase(name[z]))
+               {
+                  JOptionPane.showMessageDialog(null,"Invalid name","Error!!",JOptionPane.ERROR_MESSAGE);
+                  checker = 1;
+                  break;
+               }
+            }
+               if (checker == 1)
+               {
+                   continue;
+               }
+               else{
+                  name[x] = temp_Name;
+               }
+               if ( name[x].length() < 8)
+               {
+                 JOptionPane.showMessageDialog(null,"Invalid name input atleast 8 characters","Error!!",JOptionPane.ERROR_MESSAGE);
+               }
+               if (name[x].length() >= 8)
+               {
+                   break;
+                }
+          }
+          catch (Exception e)
+          {
+             JOptionPane.showMessageDialog(null,"Invalid Input","Error!!",JOptionPane.ERROR_MESSAGE);
+           }
+       }
+ //----------------------PASSENGER'S AGE-----------------------------
+       while(true)
+       {
+          try {
+            String P_Age =  JOptionPane.showInputDialog(null, "Enter Passenger's Age");
+            age[x] = Integer.parseInt(P_Age);
+               if (P_Age.equals(""))
+               {
+                  JOptionPane.showMessageDialog(null,"Invalid Age","Error!!",JOptionPane.ERROR_MESSAGE);
+                }
+               if (age[x] > 0 && age[x] <= 100)
+               {
+                   break;
+                }
+                else if (age[x] > 100 )
+                {
+                     JOptionPane.showMessageDialog(null,"Invalid Age","Error!!",JOptionPane.ERROR_MESSAGE);
+                 }
+             }
+            catch (NumberFormatException e)
+            {
+                JOptionPane.showMessageDialog(null,"Invalid age","Error!!",JOptionPane.ERROR_MESSAGE);
+             }  
+         } 
+//------------------PASSENGER'S INSURANCE-----------------------
+         while(true)
+         {       
+             ins[x] =  JOptionPane.showInputDialog(null, "Want to Avail Insurance?[Y/N]");           
+             if ("Y".equals(ins[x]) || "y".equals(ins[x]))
+             {
+                  fins[x] = F_insurance;
+                  break;
+              }
+             else if ("N".equals(ins[x]) || "n".equals(ins[x])) {
+                  fins[x] = F_insurance * 0;
+                        break;
+              }
+              else if (ins[x].length() != 1)
+              {
+                  JOptionPane.showMessageDialog(null,"INVALID INPUT!","Error!!",JOptionPane.ERROR_MESSAGE);
+               }
+               else {
+                   JOptionPane.showMessageDialog(null,"INVALID INPUT!","Error!!",JOptionPane.ERROR_MESSAGE);
+                }
+            }                                    
+           if ( age[x] >= 60 )
+           {
+                  travel_tax[x] = TravTax * 0;
+                  tprice[x] = (fins[x] + travel_tax[x] + bagfee + addfee + fare) * .80;
+                  disc[x] = (fins[x] + travel_tax[x] + bagfee+ addfee + fare) * .20 ;
+           }
+          else 
+          {
+                 travel_tax[x] = TravTax;
+                  tprice[x] = (fins[x] + travel_tax[x] + bagfee + addfee + fare);
+                  disc[x] = 0;
+           }
+     }
+                 for (int y=0; y<name.length; y++)
+            {
+                fprice = fprice + tprice[y];
+            }
+                 
+ //----------------------Age Restriction-----------------------------
+                int child = 0;
+                for (int a=0; a< nop; a++ )
+                    {
+                        if (age[a] < 18)
+                        {
+                            child+=1;
+                        }
+                    }
+                    if (child == nop)
+                    {
+                        JOptionPane.showMessageDialog(null,"Can't Travel and must be accompanied by at lease one (1) Adult and/or Senior Citizen ","Error!!",JOptionPane.ERROR_MESSAGE);
+                        Start();
+                    }
+                //Transaction();
+     }
    public void Test_Display(){
-      System.out.print(Destination+"\n"+traveltype+"\n"+F_insurance+"\n"+TravTax+"\n"+bagfee+"\n"+addfee+"\n"+cap+"\n"+Max);
+      System.out.print(nop+"\n"+Destination+"\n"+traveltype+"\n"+F_insurance+"\n"+TravTax+"\n"+bagfee+"\n"+addfee+"\n"+cap+"\n"+Max);
    }
 }
+
+
 //--Prints Receipt--//
 class Transaction extends TripInf{
-
+      // DITO NA LANG SIGURO ILAGAY UNG TRANSACTION METHOD, COMPUTATION, SAKA PRINT RECEIPT
+      // ----- THIS SPACE-----//
+      //
 }
+
+
 //--Main Running Class--//
 public class MercAirlines{
    public static void main (String [] args)

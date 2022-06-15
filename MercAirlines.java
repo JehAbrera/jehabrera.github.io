@@ -358,6 +358,7 @@ class TripInf {
                      fare=3500;
                   }
                }
+               NoOfPass();
                Test_Display();
             }});
       cancel2=new JButton("Cancel");
@@ -370,6 +371,35 @@ class TripInf {
       pane.add(select);
       pane.add(cancel2);
       }
+   // GETS NUMBER OF PASSENGERS //
+   public void NoOfPass(){
+      try{
+         JFrame frame4= new JFrame("Passengers");
+         frame4.setVisible(true);
+         frame4.setResizable(false);
+         JPanel pane2=new JPanel();
+         frame4.getContentPane().add(pane2);
+         pane2.setLayout(null);
+         frame4.setBounds(475, 325, 380, 200);
+         pane2.setBounds(10,10, 350, 200);
+         frame4.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+         
+         JLabel pass= new JLabel("Enter Number of Passengers:");
+         pane2.add(pass);
+         pass.setBounds(25, 20, 190, 30);
+         JTextField count= new JTextField();
+         pane2.add(count);
+         count.setBounds(215, 20, 115, 30); 
+         JButton submit, cancel3;
+         submit= new JButton("Submit");
+         cancel3=new JButton("Cancel");
+         pane2.add(submit);
+         pane2.add(cancel3);
+      }
+      catch (NumberFormatException  e) {
+         Start();
+      }
+   }
    public void Test_Display(){
       System.out.print(Destination+"\n"+traveltype+"\n"+F_insurance+"\n"+TravTax+"\n"+bagfee+"\n"+addfee+"\n"+cap+"\n"+Max);
    }

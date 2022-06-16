@@ -40,6 +40,7 @@ class TripInf {
    public double amount=0;
    public double change=0;
    public String temp_Name;
+   public String passengers="";
 
    private String planetype;
    private String location;
@@ -440,7 +441,9 @@ class TripInf {
       }
    }
    // PASSENGER INFO //
-   public void PassInfo(){
+   public void PassInfo() {
+      TripInf tp=new TripInf();
+      String rand;
      String name[]= new String[nop];
      int age[]= new int[nop];
      String ins[]= new String[nop];
@@ -541,7 +544,7 @@ class TripInf {
           {
                  travel_tax[x] = TravTax;
                   tprice[x] = (fins[x] + travel_tax[x] + bagfee + addfee + fare);
-                  disc[x] = 0;
+                  //disc[x] = 0;
            }
      }
                  for (int y=0; y<name.length; y++)
@@ -550,24 +553,59 @@ class TripInf {
             }
                  
  //----------------------Age Restriction-----------------------------
-                int child = 0;
-                for (int a=0; a< nop; a++ )
-                    {
-                        if (age[a] < 18)
-                        {
-                            child+=1;
-                        }
-                    }
-                    if (child == nop)
-                    {
-                        JOptionPane.showMessageDialog(null,"Can't Travel and must be accompanied by at lease one (1) Adult and/or Senior Citizen ","Error!!",JOptionPane.ERROR_MESSAGE);
-                        Start();
-                    }
-                //Transaction();
-     }
+      int child = 0;
+      for (int a=0; a< nop; a++ )
+      {
+           if (age[a] < 18)
+            {
+                child+=1;
+            }
+        }
+        if (child == nop)
+        {
+        JOptionPane.showMessageDialog(null,"Can't Travel and must be accompanied by at lease one (1) Adult and/or Senior Citizen ","Error!!",JOptionPane.ERROR_MESSAGE);
+        Start();
+         }
+         new Transaction().Transaction();
+         for (int y=0; y<name.length; y++)
+         {
+            
+         Random ran = new Random();
+			String code = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+			String random="";
+			for(int c =0 ; c< 6; c++)
+            {
+				random = random + code.charAt(ran.nextInt(code.length()));
+            tp.setRand("MA"+random);
+				rand=tp.getRand();
+		   	}
+         // COMPUTATIONS
+         rand=tp.getRand();
+         passengers = passengers + "\nFlight Details" + "\nPASSENGER " +(y+1);
+         passengers = String.format(passengers + "%-30s %s%n", "\nTransaction Code: ", rand);
+         passengers = passengers + "\nGuest Details" + "\nName: " +name[y];
+         passengers = passengers + "\nAge: "  + age[y];
+         passengers = String.format(passengers + "\n\nPayment Details" + "%-36s PHP%,.2f%n", "\nFare: ", fare);
+         passengers = String.format(passengers + "%-32s PHP%,.2f%n","Insurance: ", fins[y]);                          
+         passengers = String.format(passengers + "%-34s PHP%,.2f%n", "Travel Tax: ", travel_tax[y]);
+         passengers = String.format(passengers + "%-28s PHP%,.2f%n", "Baggage Fee: ", bagfee);
+         passengers = String.format(passengers + "%-28s PHP%,.2f%n", "Additional Charges: ", addfee);
+         passengers = String.format(passengers + "%-32s PHP%,.2f%n","Discount: ", disc[y]);                       
+         
+          tprice[y] = tprice[y];
+         
+         passengers = passengers +"----------------------------------------------------";
+         passengers = String.format(passengers + "%-30s PHP%,.2f%n", "\nTotal Price: ", tprice[y]);
+         passengers = passengers +"----------------------------------------------------";
+         }
+         passengers = String.format(passengers + "%-26s PHP%,.2f%n", "\nFinal Total Price: ", fprice);
+         passengers = String.format(passengers + "%-30s PHP%,.2f%n", "Payment: ", amount);
+         passengers = String.format(passengers + "%-30s PHP%,.2f%n", "Change: ", change);
+    }
    public void Test_Display(){
       System.out.print(nop+"\n"+Destination+"\n"+traveltype+"\n"+F_insurance+"\n"+TravTax+"\n"+bagfee+"\n"+addfee+"\n"+cap+"\n"+Max);
    }
+
 }
 
 
@@ -576,6 +614,32 @@ class Transaction extends TripInf{
       // DITO NA LANG SIGURO ILAGAY UNG TRANSACTION METHOD, COMPUTATION, SAKA PRINT RECEIPT
       // ----- THIS SPACE-----//
       //
+      public void Transaction(){
+         String amount1;
+         amount1= JOptionPane.showInputDialog(null,"TOTAL AMOUNT TO PAY: " + this.fprice+ "\nInput Amount"); 
+         try 
+            {
+             amount = Double.parseDouble(amount1);
+             if (amount1.equals(""))
+                {
+                  JOptionPane.showMessageDialog(null,"Invalid Input","Error!!",JOptionPane.ERROR_MESSAGE);
+                }
+             
+             if ( amount < fprice)
+                {
+                  JOptionPane.showMessageDialog(null,"INVALID AMOUNT!","WARNING",JOptionPane.WARNING_MESSAGE);
+                }
+            }
+            catch (NumberFormatException e)
+                {
+                  JOptionPane.showMessageDialog(null,"INVALID AMOUNT!","Error!!",JOptionPane.ERROR_MESSAGE);
+                }
+            if (amount >= fprice)
+                {
+                  change = amount - fprice; 
+                }
+             System.exit(0);
+          }
 }
 
 

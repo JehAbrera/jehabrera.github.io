@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+    <link rel="stylesheet" href="../output.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+        * {
+            font-family: "Poppins", sans-serif;
+        }
+    </style>
+    <title>PAPSI Holidays</title>
+</head>
+
+<body class=" w-full min-h-screen flex items-center justify-center p-4 bg-slate-600">
+    <div class=" w-1/2 h-fit flex flex-row">
+        <div class=" flex flex-row flex-1 justify-center items-center px-4 bg-slate-950">
+            <span class=" font-extrabold text-4xl text-orange-600 text-left w-full"><ion-icon class=" text-2xl" name="briefcase-outline"></ion-icon>&nbsp;PAPSI Holidays</span>
+        </div>
+        <div class=" flex flex-1 flex-col py-3 px-4 bg-white">
+            <div class=" flex justify-center border-b-2 border-slate-800 mb-2">
+                <span class=" font-bold text-lg">Reservation Form</span>
+            </div>
+            <div>
+                <form class=" w-full flex flex-col" action="Holidays.php" method="post">
+                    <div class=" flex flex-row justify-between">
+                        <div class=" flex flex-col gap-2">
+                            <strong class=" my-3"> DESINATION </strong>
+                            <span>Choose here:</span>
+                            <span><input type="radio" name="rdoDestination" value="HongKong" checked="TRUE"> HongKong</span>
+                            <span><input type="radio" name="rdoDestination" value="Singapore"> Singapore</span>
+                            <span><input type="radio" name="rdoDestination" value="Malaysia"> Malaysia</span>
+                        </div>
+                        <div class=" flex flex-col gap-2">
+                            <strong class=" my-3"> HOTEL TYPE </strong>
+                            <span>Choose here:</span>
+                            <span><input type="radio" name="rdoHotel" value="three" checked="TRUE"> Three Star</span>
+                            <span><input type="radio" name="rdoHotel" value="five"> Five Star</span>
+                        </div>
+                    </div>
+                    <div class=" flex flex-row-reverse justify-between mt-6">
+                        <button class=" px-4 py-2 bg-green-400 rounded-md" type="submit" value="Reserve">Reserve</button>
+                        <button class=" text-red-600 hover:underline" type="reset" value="Clear">Clear</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

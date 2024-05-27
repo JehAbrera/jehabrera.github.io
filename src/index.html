@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./css/output.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <!-- Favicon in .ico format -->
+    <link rel="icon" type="image/x-icon" href="./favicon.ico">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+        * {
+            font-family: "Poppins", sans-serif;
+        }
+    </style>
+    <title>Euclidean Algorithm</title>
+</head>
+
+<body class=" w-full max-h-screen h-screen bg-slate-900 overflow-hidden">
+    <main
+        class=" animate-fade-up animate-once animate-duration-[1500ms] text-slate-50 w-full max-h-full h-full p-4 overflow-auto flex flex-col md:flex-row gap-4">
+        <div class=" flex-[2] flex flex-col gap-4">
+            <div class=" flex items-center gap-4 w-fit">
+                <img src="./images/logo.png" alt="logo" class=" w-24 aspect-square">
+                <span class=" text-4xl font-bold">The Euclidean Algorithm</span>
+            </div>
+            <div role="tablist" class="tabs tabs-lifted text-slate-50">
+                <input type="radio" name="my_tabs_2" role="tab" class="tab" aria-label="Definition" checked />
+                <div role="tabpanel"
+                    class="tab-content bg-slate-900 border-slate-50 rounded-box p-6 flex flex-col gap-3">
+                    <span>Let <strong>m</strong> and <strong>n</strong> be positive integers with m &#8804; n.
+                        Let</span>
+                    <div class=" flex flex-col items-center justify-center">
+                        <span>\(m = nq_{1} + r_{1}\)</span>
+                        <span>\(n = r_{1}q_{2} + r_{2}\)</span>
+                        <span>\(r_{1} = r_{2}q_{3} + r_{3}\)</span>
+                        <span class=" my-4">\(r_{N1} = r_{N}q_{N}\)</span>
+                    </div>
+                    <span>be the result of iterating the Division Algorithm, where r<sub>N</sub> is the last non-zero
+                        remainder. Then</span>
+                    <div class=" flex flex-col items-center justify-center">
+                        <span class=" my-4"><strong>\(gcd(m,n) = r_{N}\)</strong></span>
+                    </div>
+                    <span><strong>The greatest common divisor and the least common multiple of two integers are related
+                            by the formula</strong></span>
+                    <div class=" flex flex-col items-center justify-center">
+                        <span class=" my-4"><strong>\[lcd(m,n) = {m.n \over gcd(m,n)}.\]</strong></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class=" flex-1 flex flex-col gap-4 justify-center">
+            <div class=" bg-slate-50 text-slate-900 rounded-lg p-2 flex flex-col items-center">
+                <span class=" text-xl"><strong>GCD</strong> Calculator</span>
+                <span class=" label-text-alt mb-4">Greatest Common Denominator</span>
+                <strong>Input two numbers</strong>
+                <form action="" method="post" class=" flex flex-col items-center gap-2" id="form">
+                    <div class=" form-control gap-2">
+                        <input type="text" placeholder="First Number" id="num1" class=" input input-bordered">
+                        <input type="text" placeholder="Second Number" id="num2" class=" input input-bordered">
+                    </div>
+                    <span id="error" class=" text-center text-error label-text-alt"></span>
+                    <div class=" flex justify-center gap-2">
+                        <button type="reset" class=" btn btn-error">Clear</button>
+                        <button type="submit" class=" btn btn-success">Compute</button>
+                    </div>
+                </form>
+            </div>
+            <div class=" bg-slate-50 text-slate-900 rounded-lg p-2 flex flex-col items-center mb-4 md:mb-0">
+                <span class=" text-lg"><strong>Output:</strong></span>
+                <div id="steps" class=" text-center w-full max-h-[18rem] overflow-auto"></div>
+            </div>
+        </div>
+    </main>
+    <script>
+        document.getElementById('form').addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const num1Input = document.getElementById('num1');
+            const num2Input = document.getElementById('num2');
+            const errorElement = document.getElementById('error');
+
+            try {
+                const num1 = parseInt(num1Input.value);
+                const num2 = parseInt(num2Input.value);
+
+                if (isNaN(num1) || isNaN(num2)) {
+                    throw new Error('Invalid input');
+                }
+
+                let higher, lower;
+
+                if (num1 > num2) {
+                    higher = num1;
+                    lower = num2;
+                } else {
+                    higher = num2;
+                    lower = num1;
+                }
+
+                let calc = new Euclid(higher, lower);
+                calc.findGCD();
+                errorElement.innerText = "";
+            } catch (err) {
+                errorElement.innerText = err.message;
+            }
+        })
+        class Euclid {
+            constructor(a, b) {
+                this.a = a;
+                this.b = b;
+            }
+            findGCD() {
+                const steps = [];
+                let a = this.a;
+                let b = this.b;
+                console.log(`Starting Euclidean Algorithm for GCD of ${a} and ${b}:`);
+
+                while (b !== 0) {
+                    const remainder = a % b;
+                    steps.push(`${a} = ${b} ( ${Math.floor(a / b)} ) + ${remainder}`);
+                    a = b;
+                    b = remainder;
+                }
+
+                steps.push(`GCD is ${a}`);
+
+                const stepsText = steps.join('\n'); // Join steps array with newline characters
+                const stepsHtml = stepsText.replace(/\n/g, '<br>'); // Replace newline characters with <br> tags
+
+                document.getElementById('steps').innerHTML = stepsHtml;
+            }
+        }
+    </script>
+</body>
+
+</html>

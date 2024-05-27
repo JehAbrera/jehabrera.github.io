@@ -59,8 +59,10 @@
                 <strong>Input two numbers</strong>
                 <form action="" method="post" class=" flex flex-col items-center gap-2" id="form">
                     <div class=" form-control gap-2">
-                        <input type="text" placeholder="First Number" inputmode="numeric" id="num1" class=" input input-bordered w-full" oninput="return (event.data === '8' || event.data === '0' || event.data.match(/[0-9]/)) ? null : false">
-                        <input type="text" placeholder="Second Number" inputmode="numeric" id="num2" class=" input input-bordered w-full" oninput="return (event.data === '8' || event.data === '0' || event.data.match(/[0-9]/)) ? null : false">
+                        <input type="text" placeholder="First Number" inputmode="numeric" id="num1"
+                            class=" input input-bordered w-full" oninput="restrictInput(this)">
+                        <input type="text" placeholder="Second Number" inputmode="numeric" id="num2"
+                            class=" input input-bordered w-full" oninput="restrictInput(this)">
                     </div>
                     <span id="error" class=" text-center text-error label-text-alt"></span>
                     <div class=" flex justify-center gap-2">
@@ -76,6 +78,22 @@
         </div>
     </main>
     <script>
+        function restrictInput(inputField) {
+            inputField.oninput = function (event) {
+                var charCode = event.data.charCodeAt(0);
+                if (isNaN(parseInt(event.data)) || charCode === 32) {
+                    // Prevent the input from being displayed
+                    event.preventDefault();
+                    // Clear the input field
+                    inputField.value = inputField.value.replace(/\D/g, '');
+                }
+            };
+        }
+
+        document.getElementById('form').addEventListener('reset', function (event) {
+            document.getElementById('steps').innerHTML = '';
+        })
+
         document.getElementById('form').addEventListener('submit', function (event) {
             event.preventDefault();
 
@@ -127,6 +145,10 @@
                 }
 
                 steps.push(`GCD is ${a}`);
+
+                const lcm = (this.a * this.b) / a;
+                steps.push(`LCM = (${this.a} * ${this.b})/ ${a}`);
+                steps.push(`LCM is ${lcm}`);
 
                 const stepsText = steps.join('\n'); // Join steps array with newline characters
                 const stepsHtml = stepsText.replace(/\n/g, '<br>'); // Replace newline characters with <br> tags

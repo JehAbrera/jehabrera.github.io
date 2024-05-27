@@ -59,8 +59,8 @@
                 <strong>Input two numbers</strong>
                 <form action="" method="post" class=" flex flex-col items-center gap-2" id="form">
                     <div class=" form-control gap-2">
-                        <input type="text" placeholder="First Number" id="num1" class=" input input-bordered w-full">
-                        <input type="text" placeholder="Second Number" id="num2" class=" input input-bordered w-full">
+                        <input type="text" placeholder="First Number" inputmode="numeric" id="num1" class=" input input-bordered w-full" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57">
+                        <input type="text" placeholder="Second Number" inputmode="numeric" id="num2" class=" input input-bordered w-full" onkeypress="return (event.charCode == 8 || event.charCode == 0 || event.charCode == 13) ? null : event.charCode >= 48 && event.charCode <= 57">
                     </div>
                     <span id="error" class=" text-center text-error label-text-alt"></span>
                     <div class=" flex justify-center gap-2">
